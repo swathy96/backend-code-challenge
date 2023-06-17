@@ -1,5 +1,6 @@
 package com.midwesttape.project.challengeapplication.service;
 
+import com.midwesttape.project.challengeapplication.model.Address;
 import com.midwesttape.project.challengeapplication.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -12,11 +13,11 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final JdbcTemplate template;
+    private final AddressService addressService;
 
     public User user(final Long userId) {
         try {
-
-            return template.queryForObject(
+            User user =  template.queryForObject(
                 "select " +
                     "id, " +
                     "firstName, " +
@@ -28,6 +29,10 @@ public class UserService {
                 new BeanPropertyRowMapper<>(User.class),
                 userId
             );
+            if(user != null){
+                user.setAddress(addressService.userAddress(userId));
+            }
+            return user;
         } catch (EmptyResultDataAccessException e) {
             return null;
         }

@@ -1,6 +1,6 @@
 package com.midwesttape.project.challengeapplication.service;
 
-import com.midwesttape.project.challengeapplication.model.User;
+import com.midwesttape.project.challengeapplication.model.Address;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,34 +14,24 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
-
+public class AddressServiceTest {
     private static final Long USER_ID = 1234L;
 
     @Mock
     private JdbcTemplate template;
-
-    private UserService userService;
-
     private AddressService addressService;
 
     @BeforeEach
     public void beforeEach() {
-        userService = new UserService(template,addressService);
+        addressService = new AddressService(template);
     }
 
     @Test
-    public void should_get_user() {
-
-        final User user = new User();
-
-        when(template.queryForObject(anyString(), isA(BeanPropertyRowMapper.class), eq(USER_ID))).thenReturn(user);
-
-        final User resultUser = userService.user(USER_ID);
-
-        assertEquals(user, resultUser);
-
-
+    public void should_get_user_address(){
+        final Address address = new Address();
+        when(template.queryForObject(anyString(),isA(BeanPropertyRowMapper.class), eq(USER_ID))).thenReturn(address);
+        final Address resultAddress = addressService.userAddress(USER_ID);
+        assertEquals(address,resultAddress);
     }
 
 }
