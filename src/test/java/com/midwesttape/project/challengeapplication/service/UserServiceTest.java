@@ -23,6 +23,7 @@ class UserServiceTest {
 
     private UserService userService;
 
+    @Mock
     private AddressService addressService;
 
     @BeforeEach

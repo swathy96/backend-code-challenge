@@ -19,11 +19,11 @@ public class UserController {
     }
 
     @PutMapping("v1/users/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable final Long userId, @RequestBody User user){
-        boolean isUpdated = userService.updateUser(userId, user);
-        if(isUpdated)
-            return new ResponseEntity<User>(userService.user(userId),HttpStatus.OK);//Returning the updated user details
-        return new ResponseEntity<User>(user,HttpStatus.NOT_MODIFIED);// Returning Not modified
+    public ResponseEntity<Object> updateUser(@PathVariable final Long userId, @RequestBody User user){
+        String  status = userService.updateUser(userId, user);
+        if(status.equals("Success"))
+            return new ResponseEntity<Object>(userService.user(userId),HttpStatus.OK);//Returning the updated user details
+        return new ResponseEntity<Object>(status,HttpStatus.BAD_REQUEST);// Returning Bad Request as something is missing
     }
 
 
