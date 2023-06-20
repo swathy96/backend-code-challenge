@@ -13,7 +13,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/vq1/users/{userId}")
+    @GetMapping("/v1/users/{userId}")
     public User user(@PathVariable final Long userId) {
         return userService.user(userId);
     }
