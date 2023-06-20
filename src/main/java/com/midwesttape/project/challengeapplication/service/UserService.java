@@ -39,4 +39,15 @@ public class UserService {
 
     }
 
+    public boolean updateUser(Long userId, User updatedUser){
+        try{
+           int status = template.update("update User set firstName = ?, lastName = ?, username = ?, password = ? where id = ?",
+                updatedUser.getFirstName(),updatedUser.getLastName(),updatedUser.getUsername(),updatedUser.getPassword(),userId);
+            return status > 0 && addressService.updateUserAddress(userId, updatedUser.getAddress()) > 0;
+
+        }catch(EmptyResultDataAccessException e){
+            return false;
+        }
+    }
+
 }

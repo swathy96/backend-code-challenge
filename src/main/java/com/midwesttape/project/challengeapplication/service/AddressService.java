@@ -23,7 +23,7 @@ public class AddressService {
                     "city, " +
                     "state, " +
                     "postal " +
-                    "from Address a join User on User.address_id = a.id" +
+                    "from Address a join User on User.addressId = a.id" +
                     " where user.id = ?",
                 new BeanPropertyRowMapper<>(Address.class),
                 userId
@@ -31,5 +31,15 @@ public class AddressService {
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
+    }
+
+    //h2 doesn't support join hence the usage of nested query
+    public int updateUserAddress(final Long userId, Address updatedAddress){
+        return template.update(
+            "UPDATE Address " +
+                "SET address1 = ?, address2 = ?, city = ?, state = ?, postal = ? " +
+                "WHERE id = (SELECT addressId FROM User WHERE id = ?)", updatedAddress.getAddress1(),
+            updatedAddress.getAddress2(),updatedAddress.getCity(),updatedAddress.getState(),updatedAddress.getPostal(),userId);
+
     }
 }
